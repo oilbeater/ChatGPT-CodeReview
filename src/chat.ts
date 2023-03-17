@@ -13,26 +13,14 @@ export class Chat {
     });
   }
 
-  private generatePrompt = (patch: string) => {
-    const answerLanguage = process.env.LANGUAGE
-      ? `,Answer me in ${process.env.LANGUAGE},`
-      : '';
-
-    return `Bellow is the code patch, please help me do a brief code review,${answerLanguage} if any bug risk and improvement suggestion are welcome
-    ${patch}
-    `;
-  };
-
   public codeReview = async (patch: string) => {
     if (!patch) {
       return '';
     }
+    const systemMessage = "You are a professional Golang programmer reviewing the code patch and giving feedbacks focus only on potential bugs, format errors, if the commit message is enough to describe this patch and ways to improvement."
 
     console.time('code-review cost');
-    const prompt = this.generatePrompt(patch);
-
-    const res = await this.chatAPI.sendMessage(prompt);
-
+    const res = await this.chatAPI.sendMessage(patch, {systemMessage: systemMessage});
     console.timeEnd('code-review cost');
     return res.text;
   };
