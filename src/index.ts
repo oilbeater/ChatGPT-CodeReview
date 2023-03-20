@@ -1,5 +1,5 @@
 import { run } from "probot";
 import { robot } from "./bot.js";
 
-console.info("start review");
+console.error("start review");
 run(robot)
