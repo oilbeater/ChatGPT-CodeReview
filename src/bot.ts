@@ -7,9 +7,10 @@ const MAX_PATCH_COUNT = 4000;
 export const robot = (app: Probot) => {
   const loadChat = async (context: Context) => {
     if (process.env.OPENAI_API_KEY) {
+      console.log("get key from env");
       return new Chat(process.env.OPENAI_API_KEY);
     }
-
+    console.log("get key from repo");
     const repo = context.repo();
 
     try {
@@ -46,10 +47,10 @@ export const robot = (app: Probot) => {
       const chat = await loadChat(context);
 
       if (!chat) {
-        console.log("no chat")
+        console.log("no chat");
         return 'no chat';
       }
-      console.log("chat ready")
+      console.log("chat ready");
       const pull_request = context.payload.pull_request;
 
       if (
@@ -57,7 +58,7 @@ export const robot = (app: Probot) => {
         pull_request.locked ||
         pull_request.draft
       ) {
-        console.log("invalid event paylod")
+        console.log("invalid event paylod");
         return 'invalid event paylod';
       }
 
@@ -68,8 +69,8 @@ export const robot = (app: Probot) => {
         head: context.payload.pull_request.head.sha,
       });
 
-      console.log(context.payload.pull_request.base.sha)
-      console.log(context.payload.pull_request.head.sha)
+      console.log(context.payload.pull_request.base.sha);
+      console.log(context.payload.pull_request.head.sha);
 
       let { files: changedFiles, commits } = data.data;
 
