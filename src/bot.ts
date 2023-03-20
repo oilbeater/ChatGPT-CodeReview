@@ -65,6 +65,9 @@ export const robot = (app: Probot) => {
         head: context.payload.pull_request.head.sha,
       });
 
+      console.log(context.payload.pull_request.base.sha)
+      console.log(context.payload.pull_request.head.sha)
+
       let { files: changedFiles, commits } = data.data;
 
       if (context.payload.action === 'synchronize') {
