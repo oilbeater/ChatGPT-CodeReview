@@ -41,13 +41,15 @@ export const robot = (app: Probot) => {
   app.on(
     ['pull_request.opened', 'pull_request.synchronize'],
     async (context) => {
+      console.log("start processing")
       const repo = context.repo();
       const chat = await loadChat(context);
 
       if (!chat) {
+        console.log("no chat")
         return 'no chat';
       }
-
+      console.log("chat ready")
       const pull_request = context.payload.pull_request;
 
       if (
@@ -55,6 +57,7 @@ export const robot = (app: Probot) => {
         pull_request.locked ||
         pull_request.draft
       ) {
+        console.log("invalid event paylod")
         return 'invalid event paylod';
       }
 
